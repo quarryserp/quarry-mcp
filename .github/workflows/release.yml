@@ -1,0 +1,29 @@
+name: Release
+on:
+  push:
+    tags: ["v*"]
+permissions:
+  contents: read
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - run: npm install --global npm@11
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+      - name: Verify version
+        run: node --input-type=module -e 'import fs from "node:fs"; if (process.env.GITHUB_REF_NAME !== "v" + JSON.parse(fs.readFileSync("package.json", "utf8")).version) process.exit(1)'
+      - run: bun install
+      - run: bun run typecheck
+      - run: bun test
+      - run: bun run build
+      - run: npm pack --dry-run
+      - run: npm publish --provenance --access public

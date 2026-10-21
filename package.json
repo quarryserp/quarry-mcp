@@ -1,0 +1,55 @@
+{
+  "name": "@quarryserp/mcp",
+  "version": "0.1.1",
+  "description": "Official Quarry MCP server for Google search results in AI agents.",
+  "keywords": [
+    "quarry",
+    "google",
+    "search",
+    "serp",
+    "mcp",
+    "claude",
+    "cursor",
+    "ai"
+  ],
+  "homepage": "https://quarryserp.com/docs/ai-agents",
+  "bugs": {
+    "email": "support@quarryserp.com"
+  },
+  "license": "MIT",
+  "author": "Quarry <support@quarryserp.com>",
+  "type": "module",
+  "engines": {
+    "node": ">=20"
+  },
+  "bin": {
+    "quarry-mcp": "./dist/index.js"
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "build": "bun build src/index.ts --outfile dist/index.js --target node --format esm --external @modelcontextprotocol/sdk --external zod",
+    "prepublishOnly": "bun run build",
+    "typecheck": "tsc --noEmit",
+    "test": "bun test"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "1.32.1",
+    "zod": "4.6.7"
+  },
+  "devDependencies": {
+    "@quarryserp/client": "^0.1.2",
+    "@types/bun": "^1.4.3",
+    "typescript": "^7.0.2"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/quarryserp/quarry-mcp.git"
+  }
+}
